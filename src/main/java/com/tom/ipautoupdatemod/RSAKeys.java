@@ -17,8 +17,8 @@ public class RSAKeys {
 
     private String absolutePath;
 
-    public RSAKeys(File saveLocation) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-        this.absolutePath = saveLocation.getAbsolutePath();
+    public RSAKeys(String saveLocation) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
+        this.absolutePath = saveLocation;
 
         Path priPath = Paths.get(this.absolutePath + "/private.key");
         Path pubPath = Paths.get(this.absolutePath + "/public.key");
