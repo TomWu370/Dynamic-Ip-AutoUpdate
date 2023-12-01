@@ -1,4 +1,5 @@
 package com.tom.ipautoupdatemod;
+    import java.sql.*;
 
 public class Database {
     // write to database by connecting to external link
@@ -6,6 +7,16 @@ public class Database {
 
     public Database(String connectionString) {
         this.connectionString = connectionString;
+    }
+
+    public static void main(String args[])
+            throws SQLException, ClassNotFoundException
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        try (Connection con = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306/myDb", "user1", "pass")) {
+            // use con here
+        }
     }
 
     public void Update(String newURL){}

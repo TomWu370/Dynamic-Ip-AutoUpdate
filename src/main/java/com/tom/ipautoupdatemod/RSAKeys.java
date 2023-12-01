@@ -23,7 +23,6 @@ public class RSAKeys {
         Path priPath = Paths.get(this.absolutePath + "/private.key");
         Path pubPath = Paths.get(this.absolutePath + "/public.key");
         if (Files.exists(priPath) && Files.exists(pubPath)) {
-
             // Generate private key
             byte[] bytes = Files.readAllBytes(priPath);
             PKCS8EncodedKeySpec pks = new PKCS8EncodedKeySpec(bytes);
