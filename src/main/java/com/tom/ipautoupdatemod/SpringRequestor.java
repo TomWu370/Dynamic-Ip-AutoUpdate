@@ -8,7 +8,7 @@ import java.net.URL;
 public class SpringRequestor {
     public static void main(String[] args) {
         try{
-            URL url = new URL("http://localhost:80/api/data");
+            URL url = new URL("http://localhost:80/api/data/param?param=Iamparameter&param2=bye");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
