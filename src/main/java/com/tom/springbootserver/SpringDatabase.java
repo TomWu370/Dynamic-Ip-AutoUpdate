@@ -1,5 +1,9 @@
 package com.tom.springbootserver;
 
+import javax.crypto.Cipher;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -57,7 +61,7 @@ public class SpringDatabase {
             String sql = "SELECT encryptedIP FROM SpringTable WHERE username = ?";
             PreparedStatement statement = this.c.prepareStatement(sql);
             // index starts from 1
-            statement.setString(Columns.USERNAME.ordinal()+1, username);
+            statement.setString(1, username);
             ResultSet result = statement.executeQuery();
             if (result.next()){
 
@@ -68,6 +72,41 @@ public class SpringDatabase {
             e.printStackTrace();
         }
         return new byte[0];
+    }
+
+    public void updateIP(String username, byte[] newIP){
+        try{
+            String sql = "UPDATE SpringTable SET encryptedIP = ? WHERE username = ?";
+            PreparedStatement statement = this.c.prepareStatement(sql);
+            statement.setBytes(1, newIP);
+            statement.setString(2, username);
+            statement.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAllIP(byte[] newIP, Cipher encryptor){
+        try{
+            String sql = "SELECT username, publicKey FROM SpringTable";
+            PreparedStatement statement = this.c.prepareStatement(sql);
+            ResultSet results = statement.executeQuery();
+            // perform scalability test
+            while (results.next()) {
+                KeyFactory kf = KeyFactory.getInstance("RSA");
+                X509EncodedKeySpec xks = new X509EncodedKeySpec(results.getBytes(Columns.PUBLICKEY.ordinal()));
+                PublicKey pKey = kf.generatePublic(xks);
+                encryptor.init(Cipher.ENCRYPT_MODE, pKey);
+                byte[] newEncryptedIP = encryptor.doFinal(newIP);
+                PreparedStatement tempStatement = this.c.prepareStatement("UPDATE SpringTable SET encryptedIP = ?");
+                tempStatement.setBytes(1, newEncryptedIP);
+                tempStatement.executeUpdate();
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
     public static void main(String args[]) {
         SpringDatabase database = new SpringDatabase();

@@ -26,4 +26,7 @@ public class SpringController {
         String data = "Hello from another world!"+param+" "+param2;
         return ResponseEntity.ok(data);
     }
+
+
+    // have private variable for current IP, if different then update database and update variable
 }
