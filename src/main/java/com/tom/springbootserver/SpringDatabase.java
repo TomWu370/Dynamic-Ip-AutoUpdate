@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 
 public class SpringDatabase {
     private Connection c = null;
+    enum Columns {
+        USERNAME,
+        PUBLICKEY,
+        ENCRYPTEDIP
+    }
     public SpringDatabase(){
         try {
             Class.forName("org.postgresql.Driver");
@@ -37,20 +42,38 @@ public class SpringDatabase {
             PreparedStatement statement = this.c.prepareStatement(sql);
             ResultSet results = statement.executeQuery();
             if (results.next()){
-                String username = results.getString("username");
-                String publicK = new String(results.getBytes("publicKey"));
-                String ip = new String(results.getBytes("encryptedIP"));
+                String username = results.getString(Columns.USERNAME.ordinal());
+                String publicK = new String(results.getBytes(Columns.PUBLICKEY.ordinal()));
+                String ip = new String(results.getBytes(Columns.ENCRYPTEDIP.ordinal()));
                 System.out.println("Username: " + username+ "\nPublic Key: "+ publicK + "\nEncryptedIP: "+ip);
             }
         } catch (Exception e){
             e.printStackTrace();
         }
     }
+
+    public byte[] getEncryptedIP(String username){
+        try{
+            String sql = "SELECT encryptedIP FROM SpringTable WHERE username = ?";
+            PreparedStatement statement = this.c.prepareStatement(sql);
+            // index starts from 1
+            statement.setString(Columns.USERNAME.ordinal()+1, username);
+            ResultSet result = statement.executeQuery();
+            if (result.next()){
+
+                return result.getBytes(String.valueOf(Columns.ENCRYPTEDIP));
+            }
+            // check if nothing
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
     public static void main(String args[]) {
         SpringDatabase database = new SpringDatabase();
         Connection c = database.getC();
         try {
-            database.printData();
+            System.out.println(new String(database.getEncryptedIP("Rikka")));
 
 //            String sql = ("INSERT INTO SpringTable ("
 //                    + "username,"

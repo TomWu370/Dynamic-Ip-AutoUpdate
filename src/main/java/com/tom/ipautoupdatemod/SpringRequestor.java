@@ -8,7 +8,8 @@ import java.net.URL;
 public class SpringRequestor {
     public static void main(String[] args) {
         try{
-            URL url = new URL("http://localhost:80/api/data/param?param=Iamparameter&param2=bye");
+            String databaseLink = "http://localhost:80/api/data/param?";
+            URL url = new URL(String.format(databaseLink+"param=%s&param2=%s", "Iamparameter", "bye"));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
@@ -30,5 +31,16 @@ public class SpringRequestor {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+
+
+    public String getURL(){
+        // decrypt from key, if exist then return, else don't
+        return "test";}
+
+    public boolean isWhiteList(String username){
+        // if username in database return true else return false
+        return true;
     }
 }
