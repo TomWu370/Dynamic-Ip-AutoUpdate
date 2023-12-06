@@ -10,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.json.JSONArray;
 
-
+// TO BE DELETED
 public class Database {
     // write to database by connecting to external link
     final String connectionString;

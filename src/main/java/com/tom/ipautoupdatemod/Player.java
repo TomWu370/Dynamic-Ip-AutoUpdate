@@ -5,11 +5,13 @@ import net.minecraft.client.multiplayer.ServerList;
 
 public class Player {
     private boolean isLatest;
-
+// private key pairs
 
 
     public String getNewURL(){
+        // SpringRequester.getIP;
         // return ip, if not whitelisted or not found then return null
+        // decrypt
         return "url";
     }
 

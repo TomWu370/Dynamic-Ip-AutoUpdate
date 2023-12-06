@@ -91,6 +91,7 @@ public class SpringDatabase {
         try{
             Cipher encryptor = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             KeyFactory kf = KeyFactory.getInstance("RSA");
+
             String sql = "SELECT username, publicKey FROM SpringTable";
             PreparedStatement statement = this.c.prepareStatement(sql);
             ResultSet results = statement.executeQuery();
@@ -100,6 +101,7 @@ public class SpringDatabase {
                 PublicKey pKey = kf.generatePublic(xks);
                 encryptor.init(Cipher.ENCRYPT_MODE, pKey);
                 byte[] newEncryptedIP = encryptor.doFinal(newIP);
+
                 PreparedStatement tempStatement = this.c.prepareStatement("UPDATE SpringTable SET encryptedIP = ?");
                 tempStatement.setBytes(1, newEncryptedIP);
                 tempStatement.executeUpdate();

@@ -33,14 +33,8 @@ public class SpringRequestor {
         }
     }
 
-
-
-    public String getURL(){
+    public String getURL(String username){
         // decrypt from key, if exist then return, else don't
         return "test";}
 
-    public boolean isWhiteList(String username){
-        // if username in database return true else return false
-        return true;
-    }
 }

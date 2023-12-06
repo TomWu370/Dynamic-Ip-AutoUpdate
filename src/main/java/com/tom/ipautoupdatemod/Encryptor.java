@@ -11,17 +11,17 @@ import java.security.PublicKey;
 
 public class Encryptor {
     //Cipher as private variable
-    public String encrypt(String data, PublicKey publicKey) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        return new String(cipher.doFinal(data.getBytes()));
+    private Cipher cipher;
+    public Encryptor() throws NoSuchPaddingException, NoSuchAlgorithmException {
+        this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+    }
+    public byte[] encrypt(String data, PublicKey publicKey) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        this.cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return this.cipher.doFinal(data.getBytes());
     }
 
-    public String decrypt(String data, PrivateKey privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        return new String(cipher.doFinal(data.getBytes()));
+    public String decrypt(byte[] data, PrivateKey privateKey) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        this.cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return new String(this.cipher.doFinal(data));
     }
 }

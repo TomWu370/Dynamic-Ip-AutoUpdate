@@ -7,4 +7,6 @@ public class Host {
     public void uploadURL(String uuid){}
 // script that continuously run and detect changes in ip address, if change then upload
 
+    // new white list
+
 }
