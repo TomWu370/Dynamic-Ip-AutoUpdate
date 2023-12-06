@@ -86,14 +86,16 @@ public class SpringDatabase {
         }
     }
 
-    public void updateAllIP(byte[] newIP, Cipher encryptor){
+    public void updateAllIP(byte[] newIP){
+        // when detect primary ip change
         try{
+            Cipher encryptor = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            KeyFactory kf = KeyFactory.getInstance("RSA");
             String sql = "SELECT username, publicKey FROM SpringTable";
             PreparedStatement statement = this.c.prepareStatement(sql);
             ResultSet results = statement.executeQuery();
             // perform scalability test
             while (results.next()) {
-                KeyFactory kf = KeyFactory.getInstance("RSA");
                 X509EncodedKeySpec xks = new X509EncodedKeySpec(results.getBytes(Columns.PUBLICKEY.ordinal()));
                 PublicKey pKey = kf.generatePublic(xks);
                 encryptor.init(Cipher.ENCRYPT_MODE, pKey);

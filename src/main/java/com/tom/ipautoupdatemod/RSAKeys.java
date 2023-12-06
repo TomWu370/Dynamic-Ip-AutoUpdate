@@ -25,15 +25,12 @@ public class RSAKeys {
         if (Files.exists(priPath) && Files.exists(pubPath)) {
             // Generate private key
             byte[] bytes = Files.readAllBytes(priPath);
-            PKCS8EncodedKeySpec pks = new PKCS8EncodedKeySpec(bytes);
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            this.privateKey = kf.generatePrivate(pks);
+            this.privateKey = readPrivateKey(bytes);
 
 
             // Generate private key
             bytes = Files.readAllBytes(pubPath);
-            X509EncodedKeySpec xks = new X509EncodedKeySpec(bytes);
-            this.publicKey = kf.generatePublic(xks);
+            this.publicKey = readPublicKey(bytes);
         } else {
             generateKeys();
         }
@@ -52,6 +49,18 @@ public class RSAKeys {
         writer = new FileOutputStream(this.absolutePath + "/public.key");
         writer.write(this.publicKey.getEncoded());
         writer.close();
+    }
+
+    public PrivateKey readPrivateKey(byte[] bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        PKCS8EncodedKeySpec pks = new PKCS8EncodedKeySpec(bytes);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        return kf.generatePrivate(pks);
+    }
+
+    public PublicKey readPublicKey(byte[] bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        PKCS8EncodedKeySpec pks = new PKCS8EncodedKeySpec(bytes);
+        KeyFactory kf = KeyFactory.getInstance("RSA");
+        return kf.generatePublic(pks);
     }
 
     public PrivateKey getPrivateKey() {

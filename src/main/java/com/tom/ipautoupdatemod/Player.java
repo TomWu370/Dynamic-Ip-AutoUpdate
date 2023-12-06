@@ -6,11 +6,12 @@ import net.minecraft.client.multiplayer.ServerList;
 public class Player {
     private boolean isLatest;
 
-    public Player(boolean isLatest) {
-        this.isLatest = isLatest;
-    }
 
-    //public String getNewURL(){return "url";}
+
+    public String getNewURL(){
+        // return ip, if not whitelisted or not found then return null
+        return "url";
+    }
 
     public String[] ipAddress(){
         // database will store both the current url this account is using, and the current new url encrypted
@@ -22,10 +23,9 @@ public class Player {
         // updateServerList will only update when this variable is false
         return new String[]{"mc.hypixel.net", "mc.test.net"};}
 
-    public boolean getIsLatest(){return this.isLatest;}
 
     public void updateServerList(ServerList servers) {
-        if (this.getIsLatest()) {
+        if (this.getNewURL() != null) {
             String[] ipPair = this.ipAddress();
             String previousIP = ipPair[0];
             String newIP = ipPair[1];

@@ -2,10 +2,7 @@ package com.tom.springbootserver;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +22,22 @@ public class SpringController {
         // Operations here
         String data = "Hello from another world!"+param+" "+param2;
         return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("/newIP")
+    public ResponseEntity<String> updateIPs(@RequestParam String newIP){
+
+        return ResponseEntity.ok("Done");
+    }
+
+    @GetMapping("/getIP")
+    public ResponseEntity<String> getIP(@RequestParam String username){
+        return ResponseEntity.ok("new IP");
+    }
+
+    @PostMapping("/whiteList")
+    public ResponseEntity<String> whiteList(@RequestParam String username, @RequestParam String publicKey){
+        return ResponseEntity.ok("Updated/overwritten database with user");
     }
 
 

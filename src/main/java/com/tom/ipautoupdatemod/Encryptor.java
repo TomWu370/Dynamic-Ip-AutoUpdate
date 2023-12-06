@@ -10,6 +10,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public class Encryptor {
+    //Cipher as private variable
     public String encrypt(String data, PublicKey publicKey) throws NoSuchPaddingException, NoSuchAlgorithmException,
             IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
